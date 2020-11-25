@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Login_Session.Models;
 using Login_Session.Pages.DatabaseConnection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -16,8 +17,30 @@ namespace Login_Session.Pages.Users
         public User User { get; set; }
 
         public List<string> URole { get; set; } = new List<string> { "User", "Admin" };
-        public void OnGet()
+        public string UserName;
+        public const string SessionKeyName1 = "username";
+
+
+        public string FirstName;
+        public const string SessionKeyName2 = "fname";
+
+        public string SessionID;
+        public const string SessionKeyName3 = "sessionID";
+
+
+        public IActionResult OnGet()
         {
+            UserName = HttpContext.Session.GetString(SessionKeyName1);
+            FirstName = HttpContext.Session.GetString(SessionKeyName2);
+            SessionID = HttpContext.Session.GetString(SessionKeyName3);
+
+            if (string.IsNullOrEmpty(UserName) && string.IsNullOrEmpty(FirstName) && string.IsNullOrEmpty(SessionID))
+            {
+                return RedirectToPage("/Login/Login");
+            }
+            return Page();
+
+
         }
 
         public IActionResult OnPost()
