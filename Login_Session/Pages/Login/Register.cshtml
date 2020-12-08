@@ -1,0 +1,38 @@
+﻿@page
+@model Login_Session.Pages.Login.RegisterModel
+@{
+}
+
+<h1>:: Register New Account ::</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+
+            <div class="form-group">
+                <label asp-for="User.FirstName" class="control-label"></label>
+                <input asp-for="User.FirstName" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="User.UserName" class="control-label"></label>
+                <input asp-for="User.UserName" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="User.Password" class="control-label"></label>
+                <input asp-for="User.Password" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-success" />
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="/Login/Login">Back To Login</a>
+</div>
