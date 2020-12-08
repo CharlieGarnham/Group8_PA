@@ -7,12 +7,8 @@
   <ItemGroup>
     <PackageReference Include="MigraDocCore.DocumentObjectModel" Version="0.1.1" />
     <PackageReference Include="MigraDocCore.Rendering" Version="0.1.0" />
-    <PackageReference Include="PdfSharpCore" Version="1.2.9" />
+    <PackageReference Include="PdfSharpCore" Version="1.2.10" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="wwwroot\Files\" />
   </ItemGroup>
 
 </Project>

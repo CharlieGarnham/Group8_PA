@@ -1,0 +1,49 @@
+﻿@page
+@model Login_Session.Pages.Exercises.AddModel
+@{
+}
+
+
+<h1>:: Add New Exercise ::</h1>
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+
+            <div class="form-group">
+                <label asp-for="Exercise.ExerciseName" class="control-label"></label>
+                <input asp-for="Exercise.ExerciseName" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Exercise.RepNoTime" class="control-label"></label>
+                <input asp-for="Exercise.RepNoTime" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Exercise.SetNo" class="control-label"></label>
+                <input asp-for="Exercise.SetNo" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Exercise.ExerciseDescription" class="control-label"></label>
+                <input asp-for="Exercise.ExerciseDescription" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Exercise.ExerciseArea" class="control-label"></label>
+                @Html.DropDownListFor(model => model.Exercise.ExerciseArea, new SelectList(Model.EArea), "Select Area", new { @class = "form-control", style = "width: 130px" })
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Add" class="btn btn-success" />
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="/AdminPages/AdminIndex">Back to Main Admin</a>
+</div>
