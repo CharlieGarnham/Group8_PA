@@ -1,6 +1,7 @@
 ﻿@page
 @model Login_Session.Pages.Users.CreateModel
 @{
+    ViewData["Title"] = "Create User";
 }
 
 
@@ -13,21 +14,25 @@
             <div class="form-group">
                 <label asp-for="User.FirstName" class="control-label"></label>
                 <input asp-for="User.FirstName" class="form-control" />
+                <span asp-validation-for="User.FirstName" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="User.UserName" class="control-label"></label>
                 <input asp-for="User.UserName" class="form-control" />
+                <span asp-validation-for="User.UserName" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="User.Password" class="control-label"></label>
                 <input asp-for="User.Password" class="form-control" />
+                <span asp-validation-for="User.Password" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="User.Role" class="control-label"></label>
                 @Html.DropDownListFor(model => model.User.Role, new SelectList(Model.URole), "Select Role", new { @class = "form-control", style = "width: 130px" })
+                <span asp-validation-for="User.Role" class="text-danger"></span>
             </div>
 
             <div class="form-group">

@@ -14,7 +14,7 @@ namespace Login_Session.Pages.Login
     public class RegisterModel : PageModel
     {
         [BindProperty]
-        public User User { get; set; }
+        public RegUser User { get; set; }
 
         public string Role = ("User");
         public string UserName;
@@ -28,6 +28,12 @@ namespace Login_Session.Pages.Login
 
         public IActionResult OnPost()
         {
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
             DatabaseConnect dbstring = new DatabaseConnect(); //creating an object from the class
             string DbConnection = dbstring.DatabaseString(); //calling the method from the class
             Console.WriteLine(DbConnection);
@@ -51,7 +57,7 @@ namespace Login_Session.Pages.Login
                 command.ExecuteNonQuery();
             }
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/Login/Login");
 
 
 

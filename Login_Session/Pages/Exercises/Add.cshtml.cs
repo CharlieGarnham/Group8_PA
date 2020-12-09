@@ -45,6 +45,11 @@ namespace Login_Session.Pages.Exercises
 
         public IActionResult OnPost()
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
             DatabaseConnect dbstring = new DatabaseConnect(); //creating an object from the class
             string DbConnection = dbstring.DatabaseString(); //calling the method from the class
             Console.WriteLine(DbConnection);
@@ -60,7 +65,7 @@ namespace Login_Session.Pages.Exercises
             using (SqlCommand command = new SqlCommand())
             {
                 command.Connection = conn;
-                command.CommandText = @"INSERT INTO AllExercises (ExerciseName, RepNo/Time, SetNo, ExerciseDescription, ExerciseArea) VALUES (@EName, @RepNT, @SNum, @Desc, @EArea)";
+                command.CommandText = @"INSERT INTO AllExercises (ExerciseName, RepNoTime, SetNo, ExerciseDescription, ExerciseArea) VALUES (@EName, @RepNT, @SNum, @Desc, @EArea)";
                                                                                                                                                               
                 command.Parameters.AddWithValue("@EName", Exercise.ExerciseName);                                                                                 
                 command.Parameters.AddWithValue("@RepNT", Exercise.RepNoTime);

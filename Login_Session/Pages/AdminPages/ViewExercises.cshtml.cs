@@ -119,7 +119,7 @@ namespace Login_Session.Pages.AdminPages
                 tab.AddColumn(Unit.FromCentimeter(3));
                 tab.AddColumn(Unit.FromCentimeter(3));
                 tab.AddColumn(Unit.FromCentimeter(3));
-                tab.AddColumn(Unit.FromCentimeter(3));
+                tab.AddColumn(Unit.FromCentimeter(5));
                 tab.AddColumn(Unit.FromCentimeter(2));
 
                 //Row

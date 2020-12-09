@@ -14,7 +14,7 @@ namespace Login_Session.Pages.Users
     public class CreateModel : PageModel
     {
         [BindProperty]
-        public User User { get; set; }
+        public AddUser User { get; set; }
 
         public List<string> URole { get; set; } = new List<string> { "User", "Admin" };
         public string UserName;
@@ -45,6 +45,11 @@ namespace Login_Session.Pages.Users
 
         public IActionResult OnPost()
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
             DatabaseConnect dbstring = new DatabaseConnect(); //creating an object from the class
             string DbConnection = dbstring.DatabaseString(); //calling the method from the class
             Console.WriteLine(DbConnection);
