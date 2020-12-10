@@ -1,0 +1,44 @@
+﻿@page
+@model Login_Session.Pages.UserPages.GenWorkoutModel
+@{
+}
+
+<h1>:: Your Workout ::</h1>
+<br />
+<br />
+
+<div>
+    <table class="table">
+        <thead class="table-dark">
+            <tr>
+                <th>Exercise Name</th>
+                <th>Number/Time of Reps</th>
+                <th>Number of Sets</th>
+                <th>Exercise Description</th>
+                <th>Exercise Area</th>
+            </tr>
+        </thead>
+
+        @for (int i = 0; i < Model.Exercise.Count; i++)
+        {
+            <tr>
+                <td>@Model.Exercise[i].ExerciseName</td>
+                <td>@Model.Exercise[i].RepNoTime</td>
+                <td>@Model.Exercise[i].SetNo</td>
+                <td>@Model.Exercise[i].ExerciseDescription</td>
+                <td>@Model.Exercise[i].ExerciseArea</td>
+
+            </tr>
+        }
+
+
+    </table>
+</div>
+
+<div>
+    <a target="_blank" asp-route-pdf="1">PDF Report</a>
+</div>
+
+<div>
+    <a asp-page="/UserPages/UserIndex">Back to Index</a>
+</div>

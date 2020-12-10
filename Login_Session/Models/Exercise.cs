@@ -31,4 +31,32 @@ namespace Login_Session.Models
         public string ExerciseArea { get; set; }
 
     }
+
+    public class ChooseExercise
+    { 
+        [Required]
+        [Display(Name = "Whole Body")]
+        public string WholeBody { get; set; }
+
+        [Required]
+        [Display(Name = "Arm")]
+        public string Arm { get; set; }
+
+        [Required]
+        [Display(Name = "Leg")]
+        public string Leg { get; set; }
+
+        [Required]
+        [Display(Name = "Back")]
+        public string Back { get; set; }
+
+        [Required]
+        [Display(Name = "Core")]
+        public string Core { get; set; }
+
+        [Required]
+        [Display(Name = "Cardio")]
+        public string Cardio { get; set; }
+
+    }
 }
