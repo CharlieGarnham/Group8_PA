@@ -65,7 +65,7 @@ namespace Login_Session.Pages.UserPages
             using (SqlCommand command = new SqlCommand())
             {
                 command.Connection = conn;
-                command.CommandText = @"INSERT INTO Workout (Whole Body, Arm, Leg, Back, Core, Cardio) VALUES (@WBody, @Arm, @Leg, @Back, @Core, @Cardio)";
+                command.CommandText = @"INSERT INTO Workout (WholeBody, Arm, Leg, Back, Core, Cardio) VALUES (@WBody, @Arm, @Leg, @Back, @Core, @Cardio)";
                                                                                                                                                               
                 command.Parameters.AddWithValue("@WBody", Exercise.WholeBody);                                                                                 
                 command.Parameters.AddWithValue("@Arm", Exercise.Arm);
