@@ -33,7 +33,7 @@ namespace Login_Session.Models
     }
 
     public class ChooseExercise
-    { 
+    {
         [Required]
         [Display(Name = "Whole Body")]
         public string WholeBody { get; set; }

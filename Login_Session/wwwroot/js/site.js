@@ -2,3 +2,8 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your Javascript code.
+
+function NoExercisesSelected()
+{
+    alert("INVALID: No Exercises Selected");
+}

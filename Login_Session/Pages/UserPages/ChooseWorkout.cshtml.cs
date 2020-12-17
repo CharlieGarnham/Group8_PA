@@ -62,21 +62,24 @@ namespace Login_Session.Pages.UserPages
             Console.WriteLine(Exercise.Core);
             Console.WriteLine(Exercise.Cardio);
 
+            object WorkoutIdentity;
             using (SqlCommand command = new SqlCommand())
             {
                 command.Connection = conn;
-                command.CommandText = @"INSERT INTO Workout (WholeBody, Arm, Leg, Back, Core, Cardio) VALUES (@WBody, @Arm, @Leg, @Back, @Core, @Cardio)";
-                                                                                                                                                              
+                command.CommandText = @"INSERT INTO Workout (WholeBody, Arm, Leg, Back, Core, Cardio) VALUES (@WBody, @Arm, @Leg, @Back, @Core, @Cardio); SELECT SCOPE_IDENTITY();";
+
                 command.Parameters.AddWithValue("@WBody", Exercise.WholeBody);                                                                                 
                 command.Parameters.AddWithValue("@Arm", Exercise.Arm);
                 command.Parameters.AddWithValue("@Leg", Exercise.Leg);
                 command.Parameters.AddWithValue("@Back", Exercise.Back);
                 command.Parameters.AddWithValue("@Core", Exercise.Core);
                 command.Parameters.AddWithValue("@Cardio", Exercise.Cardio);
-                command.ExecuteNonQuery();                      
+                command.ExecuteNonQuery();
+                WorkoutIdentity = Convert.ToInt32(command.ExecuteScalar());
+
             }
 
-            return RedirectToPage("/UserPages/GenWorkout");
+            return RedirectToPage("/UserPages/GenWorkout", new { WIdentity = WorkoutIdentity });
         }
     }
 }

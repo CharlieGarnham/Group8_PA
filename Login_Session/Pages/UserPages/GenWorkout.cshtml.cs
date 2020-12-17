@@ -23,6 +23,10 @@ namespace Login_Session.Pages.UserPages
     {
         [BindProperty]
         public List<Exercise> Exercise { get; set; }
+        [BindProperty]
+        public List<ChooseExercise> ExerciseChoice { get; set; }
+
+        
 
         public string UserName;
         public const string SessionKeyName1 = "username";
@@ -42,7 +46,7 @@ namespace Login_Session.Pages.UserPages
         }
 
 
-        public IActionResult OnGet(string pdf)
+        public IActionResult OnGet(string pdf, int? WIdentity)
         {
             //get the session first!
             UserName = HttpContext.Session.GetString(SessionKeyName1);
@@ -61,10 +65,91 @@ namespace Login_Session.Pages.UserPages
             SqlConnection conn = new SqlConnection(DbConnection);
             conn.Open();
 
+            ExerciseChoice = new List<ChooseExercise>();
+            ChooseExercise Choice = new ChooseExercise();
+
+            using (SqlCommand Ecommand = new SqlCommand())
+            {
+                
+                Ecommand.Connection = conn;
+                Ecommand.CommandText = @"SELECT * FROM Workout WHERE Id=@WIdentity";
+                Ecommand.Parameters.AddWithValue("@WIdentity", WIdentity);
+                var ExerciseCheck = Ecommand.ExecuteReader();
+
+                while (ExerciseCheck.Read())
+                {
+                    Choice.WholeBody = ExerciseCheck.GetString(1);
+                    Choice.Arm = ExerciseCheck.GetString(2);
+                    Choice.Leg = ExerciseCheck.GetString(3);
+                    Choice.Back = ExerciseCheck.GetString(4);
+                    Choice.Core = ExerciseCheck.GetString(5);
+                    Choice.Cardio = ExerciseCheck.GetString(6);
+                    ExerciseChoice.Add(Choice);
+                }
+            }
+
             using (SqlCommand command = new SqlCommand())
             {
+
                 command.Connection = conn;
-                command.CommandText = @"SELECT * FROM AllExercises WHERE ExerciseArea ";
+                command.CommandText = @"SELECT * FROM AllExercises WHERE ";
+                int ExerciseCounter = (0);
+                if (Choice.WholeBody == "true")                                                           
+                {                                                                                                                                                  
+                    command.CommandText = command.CommandText + "ExerciseArea ='Whole body'";
+                    ExerciseCounter++;
+                }
+                if(Choice.Arm == "true")
+                {
+
+                    if (ExerciseCounter > 0)
+                    {
+                        command.CommandText = command.CommandText + " OR ";
+                    }
+                    command.CommandText = command.CommandText + "ExerciseArea ='Arm'";
+                    ExerciseCounter++;
+                }
+                if (Choice.Leg == "true")
+                {
+                    if (ExerciseCounter > 0)
+                    {
+                        command.CommandText = command.CommandText + " OR ";
+                    }
+                    command.CommandText = command.CommandText + "ExerciseArea ='Leg'";
+                    ExerciseCounter++;
+                }
+                if (Choice.Back == "true")
+                {
+                    if (ExerciseCounter > 0)
+                    {
+                        command.CommandText = command.CommandText + " OR ";
+                    }
+                    command.CommandText = command.CommandText + "ExerciseArea ='Back'";
+                    ExerciseCounter++;
+                }
+                if (Choice.Core == "true")
+                {
+                    if (ExerciseCounter > 0)
+                    {
+                        command.CommandText = command.CommandText + " OR ";
+                    }
+                    command.CommandText = command.CommandText + "ExerciseArea ='Core'";
+                    ExerciseCounter++;
+                }
+                if (Choice.Cardio == "true")
+                {
+                    if (ExerciseCounter > 0)
+                    {
+                        command.CommandText = command.CommandText + " OR ";
+                    }
+                    command.CommandText = command.CommandText + "ExerciseArea ='Cardio'";
+                    ExerciseCounter++;
+                }
+                if (ExerciseCounter==0)
+                {
+                    //NoExercisesSelected();
+                    return RedirectToPage("/UserPages/ChooseWorkout");
+                }
 
                 var reader = command.ExecuteReader();
 
