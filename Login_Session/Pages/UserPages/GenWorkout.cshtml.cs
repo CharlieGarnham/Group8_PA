@@ -25,8 +25,10 @@ namespace Login_Session.Pages.UserPages
         public List<Exercise> Exercise { get; set; }
         [BindProperty]
         public List<ChooseExercise> ExerciseChoice { get; set; }
+        [TempData]
+        public int WID { get; set; }
 
-        
+
 
         public string UserName;
         public const string SessionKeyName1 = "username";
@@ -69,11 +71,18 @@ namespace Login_Session.Pages.UserPages
             ChooseExercise Choice = new ChooseExercise();
 
             using (SqlCommand Ecommand = new SqlCommand())
-            {
-                
+            { 
                 Ecommand.Connection = conn;
                 Ecommand.CommandText = @"SELECT * FROM Workout WHERE Id=@WIdentity";
-                Ecommand.Parameters.AddWithValue("@WIdentity", WIdentity);
+                if (pdf != "1")
+                {
+                    Ecommand.Parameters.AddWithValue("@WIdentity", WIdentity);
+                    WID = (int)WIdentity;
+                }
+                else
+                {
+                    Ecommand.Parameters.AddWithValue("@WIdentity", WID);
+                }
                 var ExerciseCheck = Ecommand.ExecuteReader();
 
                 while (ExerciseCheck.Read())
@@ -90,64 +99,71 @@ namespace Login_Session.Pages.UserPages
 
             using (SqlCommand command = new SqlCommand())
             {
-
+                string[] LetterArray = { "A", "B", "C", "D", "E", "F" };
                 command.Connection = conn;
-                command.CommandText = @"SELECT * FROM AllExercises WHERE ";
+                command.CommandText = @"";
                 int ExerciseCounter = (0);
-                if (Choice.WholeBody == "true")                                                           
-                {                                                                                                                                                  
-                    command.CommandText = command.CommandText + "ExerciseArea ='Whole body'";
+                if (Choice.WholeBody == "true")
+                {
+                    command.CommandText = command.CommandText + "SELECT * FROM (SELECT TOP 2 * FROM AllExercises WHERE ExerciseArea ='Whole body' ORDER BY NEWID()) A";
                     ExerciseCounter++;
                 }
-                if(Choice.Arm == "true")
+                if (Choice.Arm == "true")
                 {
 
                     if (ExerciseCounter > 0)
                     {
-                        command.CommandText = command.CommandText + " OR ";
+                        command.CommandText = command.CommandText + " UNION ALL ";
                     }
-                    command.CommandText = command.CommandText + "ExerciseArea ='Arm'";
+                    command.CommandText = command.CommandText + "SELECT * FROM (SELECT TOP 2 * FROM AllExercises WHERE ExerciseArea ='Arm' ORDER BY NEWID())";
+                    command.CommandText = command.CommandText + " " + LetterArray[ExerciseCounter] + " ";
                     ExerciseCounter++;
                 }
                 if (Choice.Leg == "true")
                 {
                     if (ExerciseCounter > 0)
                     {
-                        command.CommandText = command.CommandText + " OR ";
+                        command.CommandText = command.CommandText + " UNION ALL ";
                     }
-                    command.CommandText = command.CommandText + "ExerciseArea ='Leg'";
+                    command.CommandText = command.CommandText + "SELECT * FROM (SELECT TOP 2 * FROM AllExercises WHERE ExerciseArea ='Leg' ORDER BY NEWID())";
+                    command.CommandText = command.CommandText + " " + LetterArray[ExerciseCounter] + " ";
                     ExerciseCounter++;
                 }
                 if (Choice.Back == "true")
                 {
                     if (ExerciseCounter > 0)
                     {
-                        command.CommandText = command.CommandText + " OR ";
+                        command.CommandText = command.CommandText + " UNION ALL ";
                     }
-                    command.CommandText = command.CommandText + "ExerciseArea ='Back'";
+                    command.CommandText = command.CommandText + "SELECT * FROM (SELECT TOP 2 * FROM AllExercises WHERE ExerciseArea ='Back' ORDER BY NEWID())";
+                    command.CommandText = command.CommandText + " " + LetterArray[ExerciseCounter] + " ";
                     ExerciseCounter++;
                 }
                 if (Choice.Core == "true")
                 {
                     if (ExerciseCounter > 0)
                     {
-                        command.CommandText = command.CommandText + " OR ";
+                        command.CommandText = command.CommandText + " UNION ALL ";
                     }
-                    command.CommandText = command.CommandText + "ExerciseArea ='Core'";
+                    command.CommandText = command.CommandText + "SELECT * FROM (SELECT TOP 2 * FROM AllExercises WHERE ExerciseArea ='Core' ORDER BY NEWID())";
+                    command.CommandText = command.CommandText + " " + LetterArray[ExerciseCounter];
                     ExerciseCounter++;
                 }
                 if (Choice.Cardio == "true")
                 {
                     if (ExerciseCounter > 0)
                     {
-                        command.CommandText = command.CommandText + " OR ";
+                        command.CommandText = command.CommandText + " UNION ALL ";
                     }
-                    command.CommandText = command.CommandText + "ExerciseArea ='Cardio'";
+                    command.CommandText = command.CommandText + "SELECT * FROM (SELECT TOP 2 * FROM AllExercises WHERE ExerciseArea ='Cardio' ORDER BY NEWID())";
+                    command.CommandText = command.CommandText + " " + LetterArray[ExerciseCounter] + " ";
                     ExerciseCounter++;
                 }
-                if (ExerciseCounter==0)
+                if (ExerciseCounter == 0)
                 {
-                    //NoExercisesSelected();
+                    //NoExercisesSelectedPdfCreated();
+                    
+
                     return RedirectToPage("/UserPages/ChooseWorkout");
                 }
 
@@ -165,97 +181,96 @@ namespace Login_Session.Pages.UserPages
                     Exercise.Add(Row);
                 }
 
-            }
-
-            //PDF code here!
-            if (pdf == "1")
-            {
-                //Create an object for pdf document
-                Document doc = new Document();
-                Section sec = doc.AddSection();
-                Paragraph para = sec.AddParagraph();
-
-                para.Format.Font.Name = "Arial";
-                para.Format.Font.Size = 14;
-                para.Format.Font.Color = Color.FromCmyk(0, 0, 0, 100); //black colour
-                para.AddFormattedText("Your Workout", TextFormat.Bold);
-                para.Format.SpaceAfter = "1.0cm";
-
-                //Adding picture
-                ImageSource.ImageSourceImpl = new ImageSharpImageSource<Rgba32>();
-                Paragraph para2 = sec.AddParagraph();
-                var picpath = Path.Combine(_env.WebRootPath, "Files", "ExerciseImage.png");
-                var image = para2.AddImage(ImageSource.FromFile(picpath));
-                image.Width = Unit.FromCentimeter(4);
-                para2.Format.SpaceAfter = Unit.FromCentimeter(2);
-
-                //Table
-                Table tab = new Table();
-                tab.Borders.Width = 0.75;
-                tab.TopPadding = 5;
-                tab.BottomPadding = 5;
-
-                //Column
-                Column col = tab.AddColumn(Unit.FromCentimeter(2));
-                col.Format.Alignment = ParagraphAlignment.Justify;
-                tab.AddColumn(Unit.FromCentimeter(3));
-                tab.AddColumn(Unit.FromCentimeter(3));
-                tab.AddColumn(Unit.FromCentimeter(5));
-                tab.AddColumn(Unit.FromCentimeter(3));
-
-                //Row
-                Row row = tab.AddRow();
-                row.Shading.Color = Colors.Coral;
-
-                //Cell for header
-                Cell cell = new Cell();
-                cell = row.Cells[0];
-                cell.AddParagraph("Exercise Name");
-                cell = row.Cells[1];
-                cell.AddParagraph("Number/Time of Reps");
-                cell = row.Cells[2];
-                cell.AddParagraph("Number of Sets");
-                cell = row.Cells[3];
-                cell.AddParagraph("Exercise Description");
-                cell = row.Cells[4];
-                cell.AddParagraph("Exercise Area");
-
-
-                //Add data to table 
-                for (int i = 0; i < Exercise.Count; i++)
+                //PDF code here!
+                if (pdf == "1")
                 {
-                    row = tab.AddRow();
+                    //Create an object for pdf document
+                    Document doc = new Document();
+                    Section sec = doc.AddSection();
+                    Paragraph para = sec.AddParagraph();
+
+                    para.Format.Font.Name = "Arial";
+                    para.Format.Font.Size = 14;
+                    para.Format.Font.Color = Color.FromCmyk(0, 0, 0, 100); //black colour
+                    para.AddFormattedText("Your Workout", TextFormat.Bold);
+                    para.Format.SpaceAfter = "1.0cm";
+
+                    //Adding picture
+                    ImageSource.ImageSourceImpl = new ImageSharpImageSource<Rgba32>();
+                    Paragraph para2 = sec.AddParagraph();
+                    var picpath = Path.Combine(_env.WebRootPath, "Files", "ExerciseImage.png");
+                    var image = para2.AddImage(ImageSource.FromFile(picpath));
+                    image.Width = Unit.FromCentimeter(4);
+                    para2.Format.SpaceAfter = Unit.FromCentimeter(2);
+
+                    //Table
+                    Table tab = new Table();
+                    tab.Borders.Width = 0.75;
+                    tab.TopPadding = 5;
+                    tab.BottomPadding = 5;
+
+                    //Column
+                    Column col = tab.AddColumn(Unit.FromCentimeter(2));
+                    col.Format.Alignment = ParagraphAlignment.Justify;
+                    tab.AddColumn(Unit.FromCentimeter(3));
+                    tab.AddColumn(Unit.FromCentimeter(3));
+                    tab.AddColumn(Unit.FromCentimeter(5));
+                    tab.AddColumn(Unit.FromCentimeter(3));
+
+                    //Row
+                    Row row = tab.AddRow();
+                    row.Shading.Color = Colors.Coral;
+
+                    //Cell for header
+                    Cell cell = new Cell();
                     cell = row.Cells[0];
-                    cell.AddParagraph(Exercise[i].ExerciseName);
+                    cell.AddParagraph("Exercise Name");
                     cell = row.Cells[1];
-                    cell.AddParagraph(Exercise[i].RepNoTime);
+                    cell.AddParagraph("Number/Time of Reps");
                     cell = row.Cells[2];
-                    cell.AddParagraph(Exercise[i].SetNo);
+                    cell.AddParagraph("Number of Sets");
                     cell = row.Cells[3];
-                    cell.AddParagraph(Exercise[i].ExerciseDescription);
+                    cell.AddParagraph("Exercise Description");
                     cell = row.Cells[4];
-                    cell.AddParagraph(Exercise[i].ExerciseArea);
+                    cell.AddParagraph("Exercise Area");
+
+
+                    //Add data to table 
+                    for (int i = 0; i < Exercise.Count; i++)
+                    {
+                        row = tab.AddRow();
+                        cell = row.Cells[0];
+                        cell.AddParagraph(Exercise[i].ExerciseName);
+                        cell = row.Cells[1];
+                        cell.AddParagraph(Exercise[i].RepNoTime);
+                        cell = row.Cells[2];
+                        cell.AddParagraph(Exercise[i].SetNo);
+                        cell = row.Cells[3];
+                        cell.AddParagraph(Exercise[i].ExerciseDescription);
+                        cell = row.Cells[4];
+                        cell.AddParagraph(Exercise[i].ExerciseArea);
+                    }
+
+                    tab.SetEdge(0, 0, 4, (Exercise.Count + 1), Edge.Box, BorderStyle.Single, 1.5, Colors.Black);
+                    sec.Add(tab);
+
+                    //Rendering
+                    PdfDocumentRenderer pdfRen = new PdfDocumentRenderer();
+                    pdfRen.Document = doc;
+                    pdfRen.RenderDocument();
+
+                    //Create a memory stream
+                    MemoryStream stream = new MemoryStream();
+                    pdfRen.PdfDocument.Save(stream); //saving the file into the stream
+
+                    Response.Headers.Add("content-disposition", new[] { "inline; filename = ListofExercises.pdf" });
+                    return File(stream, "application/pdf");
+
                 }
-
-                tab.SetEdge(0, 0, 4, (Exercise.Count + 1), Edge.Box, BorderStyle.Single, 1.5, Colors.Black);
-                sec.Add(tab);
-
-                //Rendering
-                PdfDocumentRenderer pdfRen = new PdfDocumentRenderer();
-                pdfRen.Document = doc;
-                pdfRen.RenderDocument();
-
-                //Create a memory stream
-                MemoryStream stream = new MemoryStream();
-                pdfRen.PdfDocument.Save(stream); //saving the file into the stream
-
-                Response.Headers.Add("content-disposition", new[] { "inline; filename = ListofExercises.pdf" });
-                return File(stream, "application/pdf");
 
             }
 
             return Page();
-
         }
     }
 }
