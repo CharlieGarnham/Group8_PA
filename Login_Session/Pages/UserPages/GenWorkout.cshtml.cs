@@ -98,7 +98,7 @@ namespace Login_Session.Pages.UserPages
             }
 
             using (SqlCommand command = new SqlCommand())
-            {
+            { 
                 string[] LetterArray = { "A", "B", "C", "D", "E", "F" };
                 command.Connection = conn;
                 command.CommandText = @"";
@@ -161,9 +161,6 @@ namespace Login_Session.Pages.UserPages
                 }
                 if (ExerciseCounter == 0)
                 {
-                    //NoExercisesSelectedPdfCreated();
-                    
-
                     return RedirectToPage("/UserPages/ChooseWorkout");
                 }
 

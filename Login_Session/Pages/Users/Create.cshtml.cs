@@ -73,7 +73,7 @@ namespace Login_Session.Pages.Users
                 command.ExecuteNonQuery();
             }
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/AdminPages/ViewUsers");
         }
     }
 }

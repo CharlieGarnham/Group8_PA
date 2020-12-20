@@ -1,0 +1,54 @@
+﻿@page
+@model Login_Session.Pages.AdminPages.DeleteUsersModel
+@{
+    ViewData["Title"] = "Delete Users";
+}
+
+<h1>:: View User ::</h1>
+<br />
+<h3>User : @Model.FirstName</h3>
+<br />
+
+<form method="post">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.User[0].FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.User[0].UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.User[0].Role)
+                </th>
+                <th>
+                    Select Users to Delete
+                </th>
+            </tr>
+        </thead>
+
+        @for (int i = 0; i < Model.User.Count(); i++)
+        {
+            <tr>
+                <input type="hidden" asp-for=@Model.User[i].Id />
+                <td><input type="hidden" asp-for=@Model.User[i].FirstName />@Model.User[i].FirstName</td>
+                <td><input type="hidden" asp-for=@Model.User[i].UserName />@Model.User[i].UserName</td>
+                <td><input type="hidden" asp-for=@Model.User[i].Role />@Model.User[i].Role</td>
+                <td>@Html.CheckBoxFor(model => model.IsSelect[i], new { @class = "form-control" })</td>
+            </tr>
+        }
+
+    </table>
+
+    <div>
+        <input type="submit" value="Delete" />
+    </div>
+
+</form>
+
+
+<div>
+    <a asp-page="/AdminPages/AdminIndex">Back to Main Admin</a>
+</div>
