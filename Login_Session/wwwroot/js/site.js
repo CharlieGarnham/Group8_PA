@@ -3,7 +3,7 @@
 
 // Write your Javascript code.
 
-function NoExercisesSelected()
+function NoExercisesSelectedPdfCreated()
 {
-    alert("INVALID: No Exercises Selected");
+    alert("INVALID: No Exercises Selected Or Pdf Already Created");
 }
