@@ -1,0 +1,62 @@
+﻿@page
+@model Login_Session.Pages.AdminPages.DeleteExercisesModel
+@{
+    ViewData["Title"] = "Delete Exercises";
+}
+
+<h1>:: View User ::</h1>
+<br />
+<h3>User : @Model.FirstName</h3>
+<br />
+
+<form method="post">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Exercise[0].ExerciseName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Exercise[0].RepNoTime)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Exercise[0].SetNo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Exercise[0].ExerciseDescription)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Exercise[0].ExerciseArea)
+                </th>
+                <th>
+                    Select Exercises to Delete
+                </th>
+            </tr>
+        </thead>
+
+        @for (int i = 0; i < Model.Exercise.Count(); i++)
+        {
+    <tr>
+        <input type="hidden" asp-for=@Model.Exercise[i].Id />
+        <td><input type="hidden" asp-for=@Model.Exercise[i].ExerciseName />@Model.Exercise[i].ExerciseName</td>
+        <td><input type="hidden" asp-for=@Model.Exercise[i].RepNoTime />@Model.Exercise[i].RepNoTime</td>
+        <td><input type="hidden" asp-for=@Model.Exercise[i].SetNo />@Model.Exercise[i].SetNo</td>
+        <td><input type="hidden" asp-for=@Model.Exercise[i].ExerciseDescription />@Model.Exercise[i].ExerciseDescription</td>
+        <td><input type="hidden" asp-for=@Model.Exercise[i].ExerciseArea />@Model.Exercise[i].ExerciseArea</td>
+        <td>@Html.CheckBoxFor(model => model.IsSelect[i], new { @class = "form-control" })</td>
+    </tr>
+        }
+
+    </table>
+
+    <div>
+        <input type="submit" value="Delete" />
+    </div>
+
+</form>
+
+
+<div>
+    <a asp-page="/AdminPages/AdminIndex">Back to Main Admin</a>
+</div>

@@ -75,7 +75,7 @@ namespace Login_Session.Pages.Exercises
                 command.ExecuteNonQuery();                      
             }
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/AdminPages/ViewExercises");
         }
     }
 }
