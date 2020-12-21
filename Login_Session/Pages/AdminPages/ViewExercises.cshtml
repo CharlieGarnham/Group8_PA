@@ -4,7 +4,7 @@
     ViewData["Title"] = "View Exercise";
 }
 
-<h1>:: View Exercises ::</h1>
+<h1>The current exersizes</h1>
 <br />
 <br />
 
@@ -37,17 +37,17 @@
 </div>
 
 <div>
-    <p><a target="_blank" asp-route-pdf="1">PDF Report</a></p>
+    <p><a class="btn-outline-secondary" target="_blank" asp-route-pdf="1">PDF Report</a></p>
 </div>
 
 <div>
-    <p><a asp-page="/Exercises/Add">Add New Exercise</a></p>
+    <p><a class="btn-outline-secondary" asp-page="/Exercises/Add">Add New Exercise</a></p>
 </div>
 
 <div>
-    <p><a asp-page="/AdminPages/DeleteExercises">Delete Exercises</a></p>
+    <p><a class="btn-outline-secondary" asp-page="/AdminPages/DeleteExercises">Delete Exercises</a></p>
 </div>
 
 <div>
-    <p><a asp-page="/AdminPages/AdminIndex">Back to Main Admin</a></p>
+    <p><a class="btn-outline-secondary" asp-page="/AdminPages/AdminIndex">Back to Main Admin</a></p>
 </div>

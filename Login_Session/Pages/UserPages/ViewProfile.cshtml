@@ -4,10 +4,12 @@
     ViewData["Title"] = "Profile";
 }
 
-<h1>:: User Profile Page ::</h1>
+<h1>Your CAA gyms user profile</h1>
 <br />
-<h4>User : @Model.FirstName</h4>
+<h4>User : @Model.FirstName </h4>
+
+<br />
 
 <div>
-    <p><a asp-page="/UserPages/UserIndex">Back to Main Page</a></p>
+    <p><a class="btn-outline-secondary btn-sm" asp-page="/UserPages/UserIndex">Back to Main Page</a></p>
 </div>

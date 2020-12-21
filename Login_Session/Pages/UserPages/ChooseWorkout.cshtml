@@ -4,7 +4,7 @@
     ViewData["Title"] = "Select Workout Areas";
 }
 
-<h1>:: Choose Your Workout Areas ::</h1>
+<h1>Create your workout profile:</h1>
 
 <div class="row">
     <div class="col-md-4">
@@ -12,42 +12,42 @@
 
             <div class="form-group">
                 <label asp-for="Exercise.WholeBody" class="control-label"></label>
-                <input type="checkbox" asp-for="Exercise.WholeBody" class="form-control" />
+                <input type="checkbox" asp-for="Exercise.WholeBody" class="form-check-label" />
                 <span asp-validation-for="Exercise.WholeBody" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Exercise.Arm" class="control-label"></label>
-                <input type="checkbox" asp-for="Exercise.Arm" class="form-control" />
+                <input type="checkbox" asp-for="Exercise.Arm" class="form-check-label" />
                 <span asp-validation-for="Exercise.Arm" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Exercise.Leg" class="control-label"></label>
-                <input type="checkbox" asp-for="Exercise.Leg" class="form-control" />
+                <input type="checkbox" asp-for="Exercise.Leg" class="form-check-label" />
                 <span asp-validation-for="Exercise.Leg" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Exercise.Back" class="control-label"></label>
-                <input type="checkbox" asp-for="Exercise.Back" class="form-control" />
+                <input type="checkbox" asp-for="Exercise.Back" class="form-check-label" />
                 <span asp-validation-for="Exercise.Back" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Exercise.Core" class="control-label"></label>
-                <input type="checkbox" asp-for="Exercise.Core" class="form-control" />
+                <input type="checkbox" asp-for="Exercise.Core" class="form-check-label" />
                 <span asp-validation-for="Exercise.Core" class="text-danger"></span>
             </div>
 
             <div class="form-group">
                 <label asp-for="Exercise.Cardio" class="control-label"></label>
-                <input type="checkbox" asp-for="Exercise.Cardio" class="form-control" />
+                <input type="checkbox" asp-for="Exercise.Cardio" class="form-check-label" />
                 <span asp-validation-for="Exercise.Cardio" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Submit" class="btn btn-success" />
+                <input type="submit" value="Submit" class="btn btn-secondary btn-block" />
             </div>
 
 

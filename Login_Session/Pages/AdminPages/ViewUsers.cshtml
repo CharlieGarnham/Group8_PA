@@ -4,7 +4,7 @@
     ViewData["Title"] = "View Users";
 }
 
-<h1>:: View User ::</h1>
+<h1>Current users</h1>
 <br />
 <h3>User : @Model.FirstName</h3>
 <br />
@@ -33,17 +33,21 @@
 </div>
 
 <div>
-    <p><a target="_blank" asp-route-pdf="1">PDF Report</a></p>
+    <p><a class="btn-outline-secondary" target="_blank" asp-route-pdf="1">PDF Report</a></p>
 </div>
 
 <div>
-    <p><a asp-page="/Users/Create">Create New User</a></p>
+    <p><a class="btn-outline-secondary" asp-page="/Users/Create">Create New User</a></p>
 </div>
 
 <div>
-    <p><a asp-page="/AdminPages/DeleteUsers">Delete Users</a></p>
+    <p><a class="btn-outline-secondary" asp-page="/AdminPages/DeleteUsers">Delete Users</a></p>
 </div>
 
 <div>
-    <p><a asp-page="/AdminPages/AdminIndex">Back to Main Admin</a></p>
+    <p><a class="btn-outline-secondary" asp-page="/AdminPages/EditUsers">Edit Users</a></p>
+</div>
+
+<div>
+    <p><a class="btn-outline-secondary" asp-page="/AdminPages/AdminIndex">Back to Main Admin</a></p>
 </div>
