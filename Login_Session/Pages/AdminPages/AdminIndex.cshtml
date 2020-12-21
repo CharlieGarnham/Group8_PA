@@ -4,24 +4,24 @@
     ViewData["Title"] = "Admin Menu";
 }
 
-<h1>:: Admin Page ::</h1>
+<h1>Welcome CAA administrator</h1>
 <br />
 
-<h2>Welcome @Model.FirstName</h2>
+<h2>@Model.FirstName</h2>
 
 <br />
 <div class="row">
 
     <div class="col-sm-2">
-        <p><a asp-page="/AdminPages/ViewUsers">View Users</a></p>
+        <p><a class="btn btn-lg btn-secondary btn-block" asp-page="/AdminPages/ViewUsers">View Users</a></p>
     </div>
 
     <div class="col-sm-2">
-        <p><a asp-page="/AdminPages/ViewExercises">View Exercises</a></p>
+        <p><a class="btn btn-lg btn-secondary btn-block" asp-page="/AdminPages/ViewExercises">View Exercises</a></p>
     </div>
 
     <div class="col-sm-2">
-        <p><a asp-page="/LogoutPage/Logout">Logout</a></p>
+        <p><a class="btn btn-lg btn-secondary btn-block" asp-page="/LogoutPage/Logout">Logout</a></p>
     </div>
 
 </div>
